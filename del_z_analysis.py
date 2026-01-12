@@ -1,3 +1,10 @@
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# © 2026 Surya Pratap Singh | suryabioinfo-at-gmail.com (-at- means @)
+# Authored and developed by Surya Pratap Singh, PhD.
+# This script comes with no warranty. You can use it freely.
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
 import numpy as np
 import pandas as pd
 import glob
@@ -106,4 +113,5 @@ df.to_csv(BASE_DIR + "/" + OUT_CSV, index=False)
 
 #print(f"\n delz batch analysis complete")
 print(f" Results saved to {OUT_CSV}\n")
+
 
