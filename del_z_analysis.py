@@ -13,18 +13,19 @@ import os
 #
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-# =========================
-# USER PARAMETERS
-# =========================
+# ===================================================================
+# Working directory (Change appropriately)
+# ===================================================================
 BASE_DIR = "peptides"        # folder containing peptide subfolders
 OUT_CSV = "delta_z_summary.csv"
 
 PHOSPHATE_WIDTH = 0.35       # nm (headgroup region)
 CORE_THRESHOLD = 1.0         # nm (hydrophobic core entry)
 
-# =========================
-# XVG LOADER
-# =========================
+# =================================================================================
+# Load .xvg files 
+# Use "gmx mindist" to compute these xvg files appropriately. 
+# =================================================================================
 def load_xvg(fname):
     t, z = [], []
     with open(fname) as f:
@@ -32,12 +33,12 @@ def load_xvg(fname):
             if line.startswith(('#', '@')):
                 continue
             cols = line.split()
-            t.append(float(cols[0]) / 1000.0)  # ps → ns
-            z.append(float(cols[3]))           # z-coordinate
+            t.append(float(cols[0]) / 1000.0)  # Converts time units ps to ns.
+            z.append(float(cols[3]))           # The z-coordinate
     return np.array(t), np.array(z)
 
 # =========================
-# ANALYSIS PER PEPTIDE
+# Analysis of each Peptide
 # =========================
 results = []
 
@@ -85,9 +86,9 @@ for pep_dir in pep_dirs:
         cpp_class
     ])
 
-# =========================
-# SAVE CSV
-# =========================
+# =============================================================================
+# Final output writing (.csv)
+# =============================================================================
 
 df = pd.DataFrame(
     results,
@@ -103,5 +104,6 @@ df = pd.DataFrame(
 
 df.to_csv(BASE_DIR + "/" + OUT_CSV, index=False)
 
-#print(f"\n Δz batch analysis complete")
-print(f"✔ Results saved to {OUT_CSV}\n")
+#print(f"\n delz batch analysis complete")
+print(f" Results saved to {OUT_CSV}\n")
+
