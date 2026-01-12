@@ -1,3 +1,12 @@
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# © 2026 Surya Pratap Singh | suryabioinfo-at-gmail.com (-at- means @)
+# Authored and developed by Surya Pratap Singh, PhD.
+# This script comes with no warranty. You can use it freely.
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
@@ -5,7 +14,7 @@ import os
 import csv
 
 # =========================
-# USER PARAMETERS
+# Define working directory
 # =========================
 DATA_DIR = "data/linear"
 RESULT_DIR = "tau_results"
@@ -17,16 +26,16 @@ N_BOOT = 1000
 CONF = 95
 
 # =========================
-# PREPARE TAU GRID
+# Define the tau Grid
 # =========================
-# Only 200 ns
+# if you wanted only upto 200 ns
 #
 TAU_GRID = np.unique(np.concatenate([
     np.arange(2, 100, 2),
     np.arange(100, 201, 10)
 ]))
 
-# Up to 1000 ns
+# In case full 1us trajectory analysis
 # Uncomment below to use full 1000 ns grid
 #
 
@@ -40,9 +49,10 @@ PLATEAU_SLOPE = 0.02
 os.makedirs(RESULT_DIR, exist_ok=True)
 os.makedirs(PLOT_DIR, exist_ok=True)
 
-# =========================
-# SEQUENCE & CHARGE
-# =========================
+# ----------------------------------------------------------------------------------
+# Sequence and Charge definition
+# ----------------------------------------------------------------------------------
+
 CHARGE_MAP = {'K': 1, 'R': 1, 'D': -1, 'E': -1}
 
 def load_sequences(fname):
@@ -60,9 +70,9 @@ def net_charge(seq):
 PEPTIDE_SEQS = load_sequences(SEQ_FILE)
 charges = {p: net_charge(s) for p, s in PEPTIDE_SEQS.items()}
 
-# =========================
-# VALIDATION
-# =========================
+# ------------------------------------------------------------------------------
+# Verify each xvg with the corresponding peptide sequence is present or not.
+# ------------------------------------------------------------------------------
 xvg_peptides = [
     os.path.basename(f).replace(".xvg", "")
     for f in glob.glob(f"{DATA_DIR}/*.xvg")
@@ -72,9 +82,9 @@ missing = [p for p in xvg_peptides if p not in PEPTIDE_SEQS]
 if missing:
     raise ValueError("Missing sequences for:\n" + "\n".join(missing))
 
-# =========================
-# HELPERS
-# =========================
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#  functions
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def load_xvg(fname):
     t, d = [], []
     with open(fname) as f:
@@ -117,9 +127,9 @@ def bootstrap_ci(events, total_time, tau_off):
     high = np.percentile(vals, 100 - (100 - CONF) / 2)
     return low, high
 
-# =========================
-# ANALYSIS
-# =========================
+# -------------------------------------------------------------------------------
+# Final Analysis
+# -------------------------------------------------------------------------------
 summary = []
 all_curves = {}
 
@@ -171,9 +181,9 @@ for fname in sorted(glob.glob(f"{DATA_DIR}/*.xvg")):
     plt.savefig(f"{PLOT_DIR}/{pep}_binding_ratio_vs_tauoff.png", dpi=300)
     plt.close()
 
-# =========================
-# GLOBAL PLOT 
-# =========================
+# --------------------------------------------------------------------------------
+# Combined Plot of All Peptides.
+# --------------------------------------------------------------------------------
 plt.figure(figsize=(15, 8))
 for pep, ratios in all_curves.items():
     plt.plot(TAU_GRID, ratios, lw=1.8, color=colors[pep], label=pep)
@@ -192,7 +202,7 @@ plt.savefig(f"{PLOT_DIR}/ALL_peptides_binding_ratio_vs_tauoff.png", dpi=300)
 plt.close()
 
 # =========================
-# WRITE CSV
+#  Write output (.csv)
 # =========================
 with open(f"{RESULT_DIR}/contact_summary.csv", "w", newline="") as f:
     writer = csv.writer(f)
@@ -207,3 +217,4 @@ with open(f"{RESULT_DIR}/contact_summary.csv", "w", newline="") as f:
     writer.writerows(summary)
 
 print(" Tauoff analyses complete.")
+
