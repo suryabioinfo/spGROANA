@@ -9,6 +9,8 @@ Results are automatically summarized into a CSV file for downstream analysis.
 
 
 **About tauoff_analyzer.py*
+
 The tauoff Contact Lifetime Analysis for Peptide–Membrane Interactions
 This script computes tauoff-based binding kinetics from GROMACS contact .xvg files using event-duration analysis and bootstrapped confidence intervals.
 It distinguishes reversible versus anchored contacts, generates per-peptide and global tauoff plots, and summarizes binding metrics in a CSV for comparative studies.
+
