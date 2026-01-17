@@ -7,8 +7,6 @@ Results are automatically summarized into a CSV file for downstream analysis.
 
 
 
-
-
 **About tauoff_analyzer.py**
 
 *The tauoff Contact Lifetime Analysis for Peptide–Membrane Interactions*
@@ -17,10 +15,26 @@ It distinguishes reversible versus anchored contacts, generates per-peptide and 
 
 
 
+
+
+
 **Per-Residue Contact Frequency Analysis**
 
 This script computes the per-residue contact frequency between a peptide/protein and membrane lipids (e.g., POPS) from GROMACS MD trajectories using MDAnalysis. Contacts are defined by a user-specified distance cutoff and summarized across the trajectory.
-Key features:
+*Key features:*
 Residue-level contact detection
 Lipid headgroup–specific selections supported
-CSV output and optional bar plot visualization.
+CSV output and bar plot visualization.
+
+
+
+**Per-Residue Protein–Membrane Interaction Energy Analysis**
+
+This script calculates time-averaged per-residue nonbonded interaction energies (Coulomb + Lennard–Jones) between a peptide/protein and membrane lipids using GROMACS trajectories. Only side-chain atoms are considered to avoid backbone and terminal artifacts.
+**Important**
+*This method reports interaction energies, not binding free energies.*
+*Key features:*
+Uses atomic charges directly from GROMACS .tpr topology
+Side-chain–only residue energy decomposition
+Mean and standard deviation per residue
+Energy bar plot
