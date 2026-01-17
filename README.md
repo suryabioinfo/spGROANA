@@ -16,3 +16,11 @@ This script computes tauoff-based binding kinetics from GROMACS contact .xvg fil
 It distinguishes reversible versus anchored contacts, generates per-peptide and global tauoff plots, and summarizes binding metrics in a CSV for comparative studies.
 
 
+
+**Per-Residue Contact Frequency Analysis**
+
+This script computes the per-residue contact frequency between a peptide/protein and membrane lipids (e.g., POPS) from GROMACS MD trajectories using MDAnalysis. Contacts are defined by a user-specified distance cutoff and summarized across the trajectory.
+Key features:
+Residue-level contact detection
+Lipid headgroup–specific selections supported
+CSV output and optional bar plot visualization.
